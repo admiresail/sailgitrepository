@@ -1,3 +1,5 @@
+**************************HYGIEIA NOTES FOR INSTALLATION AND CONFIGURATION *******************************
+
 git clone  https://github.com/chaitu-papa/Hygieia.git
 
 in another putty session clone Hygieia core
