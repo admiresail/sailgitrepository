@@ -213,6 +213,16 @@ db.createUser(
 ... ...   ]
 ... ... })
 
+Hurray.. I was able to configure the GIT dashboard. This is what I did:
+
+Switched to "dashboard" db.
+Created the user in "dashboard" db.
+Changed my application.properties file and dashboard.properties file to point to "dashboard" db.
+Ran my API , gulp serve, and my collector again.
+Deleted my cookies and browsing history and temp files and logged into my dashboard.
+Configured the scm widget and it worked.
+The tutorial should be updated with proper steps. I was going round and round with API, collector and DB for the past 2 days. Thank you all for your help !!! :) :) :) 
+
 
 
 
