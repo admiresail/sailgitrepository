@@ -1,0 +1,218 @@
+git clone  https://github.com/chaitu-papa/Hygieia.git
+
+in another putty session clone Hygieia core
+git clone https://github.com/Hygieia/hygieia-core.git
+
+ and clone Hygieia
+git clone https://github.com/Hygieia/Hygieia.git
+
+mongod --dbpath C:\Program Files\MongoDB\Server\4.0\data
+
+and copy the core inside Hygieia
+
+in pom.xml modify the /api code 
+
+<module>core</module> above <module>api</module> 
+
+this is to build the latest code. 
+
+run mvn clean install package
+
+with the old code UI build failed so we did the above steps and building the package again.
+
+Disk space was full causing the build to fail.
+
+Hence we checked the disk space df -h
+
+So we removed the .m2(maven home folder created during build) and changed the environment variable MAVEN_HOME to /appmon/ path so that there wont be any disk space issues. 
+
+rm -rf .m2
+du -sh*
+export MAVEN_HOME = /appmon
+
+ps -eaf|grep mongo to check if Mongo is running or not.
+service mongod start
+
+usedashboarddb
+
+The java version should to 1.8 which is exactly recommended. I had 1.11 version and it throwed an error.
+
+Make sure the path variable and JAVA_HOME variable is setup. 
+
+http://hygieia.github.io/Hygieia/database.html follow the steps.
+
+Configure UI 
+
+http://hygieia.github.io/Hygieia/ui.html
+
+wget <paste the link address of Nodejs>
+
+tar -zxvf node* to install nodejs
+
+to install gzip
+yum install gzip
+unxz <tarfile>
+tar -xvf <filename>
+
+export PATH=$PATH:<nodejs-path>/bin
+install npm
+ go to Hygieia/UI and then run - npm install
+run bower install --allow-root from the directory.
+
+then run the gulp serve
+select the URL and check in the browser
+
+vi gulp.sh - enter the following command and save the file.
+
+nohup gulp serve &
+chmod +x gulp.sh
+
+for windows installation , to enable browser sync options execute
+npm i browser-sync --save
+npm start 
+
+
+
+go into the api directory.
+create application.properties file
+vi  application.properties
+paste the below contents here:
+--> dbname=dashboarddbdbusername=dashboarduserdbpassword=dbpassworddbhost=127.0.0.227dbport=27017dbreplicaset=falsedbhostport=17.0.0.227:27017server.contextPath=/apiserver.port=8080logRequest=falselogSplunkRequest=falsecorsEnabled=false#key=31FMOy+UxwSM2twcxCPWBPGRQLoN+LWKauth.expirationTime=50000auth.secret=auth.authenticationProviders=STANDARD
+Connected from home:
+
+dbname=dashboarddb
+dbusername=dashboarduser
+dbpassword=dbpassword
+dbhost=127.0.0.1
+dbport=27017
+dbreplicaset=false
+dbhostport=127.0.0.1:27017
+server.contextPath=/api
+server.port=3000
+logRequest=false
+logSplunkRequest=false
+corsEnabled=false
+auth.expirationTime=50000
+auth.secret=
+auth.authenticationProviders=STANDARD
+
+vi  api.sh
+--> nohup java -jar target/api.jar --spring.config.location=application.properties -Djasypt.encryptor.password=hygieiasecret &
+
+run this in your API/target folder
+java -jar api.jar --spring.config.location=C:\Users\sweethome\Sailesh\DevOps\Git\sailgitrepository\Hygieia\api\api.properties -Djasypt.encryptor.password=hygieiasecret
+
+chmod + api.sh
+
+tail -f nohup.out
+cat nohup.out
+ps -eaf|grep api
+
+go into the core/target directory
+
+java -jar core--SNAPSHOT.jar com.capitalone.dashboard.util.Encryption ( change the core version as displayed in the target folder)
+
+the out put will be 
+$ java -jar core-2.0.5-SNAPSHOT.jar com.capitalone.dashboard.util.Encryption
+SLF4J: Failed to load class "org.slf4j.impl.StaticLoggerBinder".
+SLF4J: Defaulting to no-operation (NOP) logger implementation
+SLF4J: See http://www.slf4j.org/codes.html#StaticLoggerBinder for further details.
+Your secret key is:
++yD3+HaPaLZSLLYWRZeboe/905R2B6vq
+Sample encrypted string with the above key for 'thisIsMyPassword' is:
+zY+A0jGvzyPaZQ3//VfJDwn4JaHUsp1y
+
+g4MButC5FYYvFmcIsAdAIOCda9Uy5Wgy
+
+
+
+Issues in Surath's machine:
+1. API is running properly, the login page is not coming up but there are no issues though.. When I ran the gulp command twice, the dashboard is 
+2. Login issue, everytime we step go back to the previous page, the login page is coming.
+3. When we enter the information in the dashboard, it is not saving. 
+
+
+cd to .m2/repository/org/jasypt/jasypt/1.9.2
+
+execute the below command
+java -cp jasypt-1.9.2.jar org.jasypt.intf.cli.JasyptPBEStringEncryptionCLI input="dbpassword" password=hygieiasecret algorithm=PBEWithMD5AndDES
+
+Copy the output key and paste it in the application.properties in auth.secret=<copy the output from previous command>
+
+FzkRsWlEXIzIJK399SxcNBQaAoQmrm7L
+
+./api.sh
+
+
+nodejs path variables. 
+we have to see whether Mango db is running..
+run API.sh to be run first and then we need to run gulp.sh 
+
+after compilation we can delete the .m2 repositories
+
+every collector has its own jar. We just need to use the configuration options. we have to just run the jar file.
+
+
+For Github, Jenkins read access has to be obtained. and the URL's and Ports.
+
+
+For collectors:
+
+java -jar /c/Users/sweethome/Sailesh/DevOps/Git/sailgitrepository/Hygieia/collectors/scm/github/target/github-scm-collector-2.0.5-SNAPSHOT.jar --spring.config.name=github --spring.config.location=/c/Users/sweethome/Sailesh/DevOps/Git/sailgitrepository/Hygieia/collectors/scm/github/src/main/resources/application.properties
+
+
+https://sweetcode.io/hygieia-integrated-dashboard-project-management-release/
+
+https://www.youtube.com/watch?v=SoNTA78j0tc
+
+java -jar api.jar --spring.config.location=C:\Users\sweethome\Sailesh\DevOps\Git\sailgitrepository\Hygieia\api\api.pr
+operties -Djasypt.encryptor.password=hygieiasecret
+
+systemctl enable mongodb
+systemctl start mongodb
+systemctl mongo status
+
+Appdynamics propertiesfile
+
+#Logging 
+Filelogging.file=./logs/appd-collector.log
+#Collector schedule (required)
+appdynamics.cron=1 * * * * *
+#AppDynamics server (required)
+appdynamics.instanceUrls=https://cognizanttechnologysolutions-nfr.saas.appdynamics.com
+#AppDynamics Username (required)
+appdynamics.username=
+#AppDynamics Password (required)
+appdynamics.password=
+#AppDynamics Dashboard (required)
+appdynamics.dashboardUrl=https://cognizanttechnologysolutions-nfr.saas.appdynamics.com/controller/
+#/location=APP_DASHBOARD&timeRange=last_15_minutes.BEFORE_NOW.-1.-1.15&application=%s&dashboardMode=force
+
+
+vi appd.sh
+nohup java -jar target/appdynamics-collector.jar --spring.config.name=appdynamics --spring.config.location=appd.properties &
+run the script .\appd.sh
+tail -f nohup.out
+
+Rally properties
+rally.cron=0 0/5 * * * *
+rally.servers[0]=http://rallydev.com
+rally.usernames[0]=myrallyuserid
+rally.passwords[0]=myrallypassword
+
+ls -altr to show the invisible file.
+
+mLBeVFGPg87goe+S2dAqJkaYO+NMbbCd
+
+db.createUser(
+... ... {
+... ...   user: "dashboarduser",
+... ...   pwd: "dbpassword",
+... ...   roles: [
+... ...   {role: "readWrite", db: "dashboard"}
+... ...   ]
+... ... })
+
+
+
+
